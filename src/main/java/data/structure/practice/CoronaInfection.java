@@ -71,6 +71,55 @@ public class CoronaInfection {
 
 	}
 
+	static int findNoOfDays(Scanner scanner) {
+		int n = 3, m = 3;
+		Boolean[][] arr = new Boolean[n][m];
+		Boolean[][] arrCopy = new Boolean[n][m];
+		for (int row = 0; row < n; row++) {
+			for (int col = 0; col < m; col++) {
+				arr[row][col] = scanner.nextBoolean();
+				arrCopy[row][col] = arr[row][col];
+			}
+		}
+
+		int countDays = 0;
+		boolean checkAllHousesInfected = true;
+		do {
+			checkAllHousesInfected = true;
+			for (int row = 0; row < n; row++) {
+				for (int col = 0; col < m; col++) {
+					if (arrCopy[row][col]) {
+						if (row - 1 >= 0) {
+							arr[row - 1][col] = true;
+						}
+						if (row + 1 < n) {
+							arr[row + 1][col] = true;
+						}
+						if (col - 1 >= 0) {
+							arr[row][col - 1] = true;
+						}
+						if (col + 1 < m) {
+							arr[row][col + 1] = true;
+						}
+
+					}
+				}
+			}
+			for (int row = 0; row < n; row++) {
+				for (int col = 0; col < m; col++) {
+					arrCopy[row][col] = arr[row][col];
+					if (!arr[row][col]) {
+						checkAllHousesInfected = false;
+					}
+				}
+			}
+
+			countDays++;
+		} while (!checkAllHousesInfected);
+		System.out.println("Number of days : " + countDays);
+		return countDays;
+	}
+	
 	private static void addListDataToArray(List<List<Boolean>> mat, Boolean[][] matCopy, int rows, int cols) {
 		for (int row = 0; row < rows; row++) {
 			List<Boolean> list = mat.get(row);
